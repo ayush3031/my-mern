@@ -40,7 +40,7 @@ export default function Post() {
             </div>
         </div>
         <div className='ml-[5vh] grid grid-cols-3 gap-[10vh] text-[3.5vh] py-[1vh]'>
-            <span ref={myRef} className='flex items-center gap-[5px]'>{!isLiked?<BiUpvote size={"4.5vw"}/>:<BiSolidUpvote size={"4.5vh"} />}25</span>
+            <span ref={myRef} className='flex items-center gap-[5px]'>{!isLiked?<BiUpvote size={"4.5vh"}/>:<BiSolidUpvote size={"4.5vh"} />}25</span>
             <h1 className='flex items-center gap-[10px]'><FaRegCommentAlt size={"20px"} />26</h1>
             <h1 className='flex items-center gap-[10px]'><FaRegBookmark size={"20px"}/>28</h1>
         </div>
