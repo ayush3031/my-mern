@@ -1,49 +1,104 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { BiUpvote } from "react-icons/bi";
-import { BiSolidUpvote } from "react-icons/bi";
-import { FaRegCommentAlt } from "react-icons/fa";
-import { FaRegBookmark } from "react-icons/fa";
 
-export default function Post() {
+import React, { useEffect, useRef, useState } from 'react';
+import { BiUpvote } from "react-icons/bi";
+import { FaCommentAlt } from "react-icons/fa";
+import { FaBookmark } from "react-icons/fa";
+import { BiSolidUpvote } from "react-icons/bi";
+
+
+const Post = () => {
+
 
     const myRef = useRef(null);
-    useEffect(()=>{
-        myRef.current.addEventListener('click',handleLiked);
-        return ()=>{
-            myRef.current.removeEventListener('click',handleLiked);
-        }
+    useEffect(() => {
+        myRef.current.addEventListener('click', handleLiked);
+        
     })
-    function handleLiked()
-    {
+
+    /*const myRef2 = useRef(null);
+    useEffect(() => {
+        myRef2.current.addEventListener('click', handleSaved);
+        return () => {
+            myRef2.current.removeEventListener('click', handleSaved);
+        }
+    })*/
+
+    function handleLiked() {
         toggleLiked(!isLiked);
     }
-    const [isLiked,toggleLiked]= useState(false);
+    function handleSaved() {
+        toggleSaved(!isSaved);
+    }
+    const [isLiked, toggleLiked] = useState(false);
+    const [isSaved, toggleSaved] = useState(false);
 
-  return (
-    <div className=' ml-[4vh] mr-[4vh] flex flex-col justify-center bg-zinc-900 rounded-[15px] text-white mb-[1vh] flex-1 p-4 lg:pl-0 lg:pr-0'>
-        <div className='bg-zinc-900 pt-[4vh] px-[4vh] flex items-center gap-[1vh] text-white overflow-wrap rounded-t-[15px]'>
-            <img className='rounded-[70px] h-[9vh] w-[9vh]' src='https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg'></img>
-            <h1 className=' font-semibold'>Harry Brook</h1>
-            <h1 className='font-light text-gray-300'>|</h1>
-            <h1 className='font-light text-gray-300'>@harry123</h1>
-            <h1 className='font-light text-gray-300'>|</h1>
-            <h1 className='font-light text-gray-300'>14 July </h1>
-            <h1 className='font-light text-gray-300'>|</h1>
-            <h1 className='font-light text-gray-300'>2024</h1>
-        </div>
-        <div className='flex items-center justify-left mb-[2vh]'>
-            <h1 className='ml-[30px]'>Hey there jkbwiohdpojfo;ejn</h1>
-        </div>
-        <div className=' border-t-[1px] border-b-[1px] border-zinc-400'>
-            <div className='image container  my-[3vh] flex justify-center'>
-                <img className='object-contain w-[50vh] h-[50vh] rounded-md border-[1px] border-gray-500' src='https://pbs.twimg.com/media/GR_acgHaUAEcFzf?format=jpg&name=900x900'></img>
+    const [showComments, setShowComments] = useState(false);
+
+    const handleCommentClick = () => {
+        setShowComments(!showComments);
+    };
+    return (
+        <div className="max-w-xl mx-auto p-4 text-zinc-100 shadow-md rounded-md mb-4 bg-zinc-900">
+            <div className="flex items-center mb-4">
+                <div className="flex-shrink-0">
+                    <img
+                        className="h-10 w-10 rounded-full"
+                        src={`https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg`}
+
+                    />
+                </div>
+                <div className="ml-3">
+                    <div className="text-sm font-medium text-zinc-100">John</div>
+                    <div className="text-sm text-gray-300">@jey | 14  July | 2024 </div>
+                </div>
             </div>
+            {/*postImage && (*/}
+            <div className="mb-4">
+                <img src="https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg" alt="Post" className="w-full rounded-md" />
+            </div>
+            {/*)}*/}
+            {/*caption && (*/}
+            <div className="mb-4 pb-4 text-zinc-100 border-b-[1px] border-zinc-200">
+                hey all
+            </div>
+            {/*)}*/}
+            <div className="flex items-center justify-around text-gray-200 ">
+                <button ref={myRef}
+                    className="flex items-center space-x-1 hover:text-blue-500 transition duration-200 "
+                >
+                    {!isLiked ? <BiUpvote className="text-xl" /> : <BiSolidUpvote className="text-xl" />}
+                    <span className='text-zinc-200 text-[17px]'>25</span>
+                </button>
+                <button onClick={handleCommentClick}
+                    className="flex items-center space-x-1 hover:text-blue-500 transition duration-200"
+                >
+                    <FaCommentAlt className="text-l" />
+                    <span className='text-zinc-200 text-[17px]'> 26</span>
+                </button>
+                <button
+                    //ref={myRef2}
+                    className="flex items-center space-x-1 hover:text-blue-500 transition duration-200"
+                >
+                    <FaBookmark />
+                </button>
+            </div>
+            {showComments && (
+                
+                <div className="mt-4">
+                    <textarea
+                        className="w-full p-2 border border-gray-300 rounded-md text-zinc-800"
+                        placeholder="Add a comment..."
+                    />
+                    <button
+                        //onClick={onComment}
+                        className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200"
+                    >
+                        Comment
+                    </button>
+                </div>
+            )}
         </div>
-        <div className='ml-[5vh] grid grid-cols-3 gap-[10vh] text-[3.5vh] py-[1vh]'>
-            <span ref={myRef} className='flex items-center gap-[5px]'>{!isLiked?<BiUpvote size={"4.5vh"}/>:<BiSolidUpvote size={"4.5vh"} />}25</span>
-            <h1 className='flex items-center gap-[10px]'><FaRegCommentAlt size={"20px"} />26</h1>
-            <h1 className='flex items-center gap-[10px]'><FaRegBookmark size={"20px"}/>28</h1>
-        </div>
-    </div>
-  )
-}
+    );
+};
+
+export default Post;

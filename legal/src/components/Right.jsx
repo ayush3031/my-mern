@@ -11,7 +11,7 @@ export default function Right() {
         setIsOpen(!isOpen);
     };
     return (
-        <div className='border-l-[1px] border-zinc-500 lg:w-[49vh]'>
+        <div className='border-l-[1px] border-zinc-500 lg:w-[49vh] '>
             {/* Toggle Button */}
             <div className='lg:hidden p-8'>
                 <button
