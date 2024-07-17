@@ -2,14 +2,13 @@ const mongoose = require('mongoose');
 
 const postSchema = new mongoose.Schema(
     {
-        username: {
+        name: {
             type: String,
             required: true,
         },
-        userId: {
-            type: mongoose.Schema.Types.ObjectId,
+        username: {
+            type: String,
             ref: 'User',
-            required: true,
         },
         content: {
             type: String,
@@ -32,10 +31,13 @@ const postSchema = new mongoose.Schema(
             },
         ],
         comments: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Comment',
-            },
+            { 
+                user: 
+                {   type: mongoose.Schema.Types.ObjectId,
+                    ref: 'User' 
+                },
+                text: { type: String },
+            }
         ],
         createdAt: {
             type: Date,

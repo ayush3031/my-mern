@@ -1,4 +1,7 @@
+import axios from 'axios';
 import React, { useState } from 'react'
+
+
 
 export default function CreatePost() {
 
@@ -13,22 +16,49 @@ export default function CreatePost() {
         setImage(e.target.files[0]);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission, e.g., sending data to the backend
-        console.log('Post content:', postContent);
-        if (image) {
-            console.log('Image:', image);
+
+        let formData={};
+        if(image)
+        {
+            formData = {
+                content : e.target.content.value,
+                image:image,
+            }
+        }
+        else 
+        {
+            formData = {
+                content : e.target.content.value,
+            }
+        }
+       
+        //formData.append('content', postContent);
+
+        
+        console.log(formData);
+        try {
+            const response = await axios.post('http://localhost:5000/home/posts', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                withCredentials: true
+            });
+            console.log('hey');
+            console.log('Post created:', response.data);
+        } catch (error) {
+            console.error('Error creating post:', error);
         }
     };
-
     return (
         <div className=" top-0 left-0 right-0 max-w-xl mx-auto mb-[2vh] p-4 bg-zinc-900  shadow-md rounded-md">
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
-                    <textarea
+                    <input
                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="What's on your mind?"
+                        name='content'
                         rows="4"
                         value={postContent}
                         onChange={handlePostContentChange}
@@ -37,6 +67,7 @@ export default function CreatePost() {
                 <div className="mb-4">
                     <input
                         type="file"
+                        name='image'
                         accept="image/*"
                         onChange={handleImageChange}
                         className="block w-full text-sm text-gray-500

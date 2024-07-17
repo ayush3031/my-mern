@@ -7,7 +7,7 @@ import Profile from './pages/Profile'
 export default function App() {
   const appRouter = createBrowserRouter([
     {
-        path: "/signup",
+        path: "/",
         element: <Signup/>
     },
     {

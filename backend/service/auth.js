@@ -6,7 +6,7 @@ function setUser(user)
         _id:user._id,
         email: user.email,
     }
-    return jwt.sign(payload,secret,{expiresIn: '1h'});
+    return jwt.sign(payload,secret);
 }
 
 function getUser(token)

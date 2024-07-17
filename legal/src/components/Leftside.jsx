@@ -68,7 +68,7 @@ export default function Leftside() {
                         <TiHome size={"4vh"} />
                         <h1 className={`text-[22px] ${currentPath === '/contact' ? 'border-b-[1px] border-zinc-300' : ''}`}>Contact</h1>
                     </a>
-                    <a href='/signup' className="block py-2 px-[4vh] flex items-center gap-[2vh]  hover:bg-zinc-700 rounded-[9vh]">
+                    <a href='/' className="block py-2 px-[4vh] flex items-center gap-[2vh]  hover:bg-zinc-700 rounded-[9vh]">
                         <IoLogOutOutline size={"4vh"} />
                         <h1 className='text-[22px]'>Log Out</h1>
                     </a>
