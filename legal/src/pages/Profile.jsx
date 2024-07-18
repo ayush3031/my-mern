@@ -1,28 +1,52 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Leftside from '../components/Leftside'
 import Profilefeed from '../components/Profilefeed'
-
 import Post from '../components/Post'
+import axios from 'axios'
+
 export default function Profile() {
-  return (
-    <div className="App flex lg:flex-row">
-        <div className='lg:fixed '>
-            <Leftside/> 
+
+    const [posts, setPosts] = useState([]);
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+
+                const response = await axios.get(`http://localhost:5000/users/profile/posts`, { withCredentials: true });
+                setPosts(response.data);
+                console.log('fetched posts');
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        };
+        fetchPosts();
+    },[]);
+
+    return (
+        <div className="App flex lg:flex-row">
+            <div className='lg:fixed '>
+                <Leftside />
+            </div>
+            <div className="flex-1 p-4 overflow-auto lg:ml-[15vw] flex flex-col">
+                <div>
+                    <Profilefeed noOfPosts={posts.length} />
+                </div>
+                {posts.map((post, index) => (
+                    <div key={post._id}>
+                        <Post
+                        key={index}
+                        name={post.name}
+                        username={post.username}
+                        content={post.content}
+                        image={post.image}
+                        date={post.createdAt}
+                        likes={post.likes}
+                        bookmarks={post.bookmarks}
+                        comments={post.comments}
+                        id={post._id}
+                        />
+                    </div>
+                ))}
+            </div>
         </div>
-        <div className="flex-1 p-4 overflow-auto lg:ml-[15vw] flex flex-col">
-            <div>
-                <Profilefeed /> 
-            </div>
-            <div className='overflow-auto w-full lg:w-3/5 lg:ml-[15vw]'>
-                <Post/>
-            </div>
-            <div className='overflow-auto w-full lg:w-3/5 lg:ml-[15vw]'>
-                <Post/>
-            </div>
-            <div className='overflow-auto w-full lg:w-3/5 lg:ml-[15vw]'>
-                <Post/>
-            </div>
-        </div>
-    </div>
-  )
+    )
 }

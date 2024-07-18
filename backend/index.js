@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const { connectToDb } = require('./connection');
 const userRouter = require('./routes/user.js');
 const postRouter = require('./routes/posts.js');
+const profileRouter = require('./routes/profile.js');
 const { checkAuth, restrictToLoggedinUserOnly } = require('./middlewares/auth.js');
 const app = express();
 const cors = require('cors');
@@ -15,6 +16,10 @@ const fs = require('fs');
 const uploadPath = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadPath)) {
     fs.mkdirSync(uploadPath, { recursive: true });
+}
+const dpUploadPath = path.join(__dirname, 'dps');
+if (!fs.existsSync(dpUploadPath)) {
+    fs.mkdirSync(dpUploadPath, { recursive: true });
 }
 
 //cors
@@ -37,11 +42,12 @@ app.use(cookieParser());
 
 //server uploads 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
+app.use('/dps', express.static(path.join(__dirname, 'dps')));
 //routes
 
 app.use('/',userRouter);
 app.use('/home',restrictToLoggedinUserOnly,postRouter);
+app.use('/users',restrictToLoggedinUserOnly,profileRouter);
 
 
 app.listen(PORT,()=>{
