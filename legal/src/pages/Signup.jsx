@@ -36,7 +36,12 @@ export default function Signup() {
             };
             try {
                 //console.log(formData);
-                const response = await axios.post('http://localhost:5000/signup', formData);
+                const response = await axios.post('http://localhost:5000/signup', formData, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    withCredentials: true
+                });
                 alert('Signup successful');
                 console.log('Signup successful:', response.data);
                 navigate('/home');
@@ -56,9 +61,13 @@ export default function Signup() {
             //console.log(formData);
             try {
                 console.log(formData);
-                const response = await axios.post('http://localhost:5000/login', formData);
+                const response = await axios.post('http://localhost:5000/login', formData, {
+                    headers: {
+                        'Content-Type': 'application/json'},
+                    withCredentials: true
+                });
                 alert('Login successful');
-                console.log(response.config.headers.Cookie);
+                //console.log(response.config.headers.Cookie);
                 console.log('Login successful:', response.data);
                 navigate('/home');
                 // Handle success, e.g., redirect to another page or show success message

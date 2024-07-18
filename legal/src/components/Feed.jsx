@@ -44,6 +44,7 @@ export default function Feed() {
               likes={post.likes}
               bookmarks={post.bookmarks}
               comments={post.comments}
+              id={post._id}
             />
         ))}
     </div>

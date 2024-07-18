@@ -33,8 +33,8 @@ const postSchema = new mongoose.Schema(
         comments: [
             { 
                 user: 
-                {   type: mongoose.Schema.Types.ObjectId,
-                    ref: 'User' 
+                {   type: String,
+                    required:true 
                 },
                 text: { type: String },
             }

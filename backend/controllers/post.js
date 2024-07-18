@@ -31,10 +31,10 @@ async function handleCreatePost(req, res) {
 }
 
 async function handleGetPosts(req, res) {
-    console.log('getpost');
+    //console.log('getpost');
     try {
         const posts = await Post.find().sort({ createdAt: -1 });
-        console.log(posts);
+        //console.log(posts);
         res.json(posts);
     }
     catch (err) {
@@ -42,7 +42,60 @@ async function handleGetPosts(req, res) {
     }
 }
 
+async function handleGetComments(req,res)
+{
+    const postId = req.params;
+    console.log(postId.id);
+    const {comments }= await Post.findOne({_id:postId.id});
+    console.log('jo');
+    console.log(comments);
+    return res.status(201).send(comments);
+}
+
+async function handleAddNewComment(req,res)
+{
+    const postId = req.params;
+    const {content } = req.body;
+    const userUid = req.cookies.uid;
+    console.log(content);
+    if(!userUid) return res.status(404).json({message:"User not found"});
+    const user = getUser(userUid);
+
+    if(!user) return res.status(404).json({message:"User not found"});
+    
+    try {
+        const email = user.email;
+        const userWithComment = await User.findOne({email});
+        
+        const name = userWithComment.username;
+        const id = postId.id;
+        const comment = {
+            user: name,
+            text:content
+        }
+        const post = await Post.updateOne(
+            { _id:id },
+            {$push : {comments: comment }}
+        );
+        //console.log(post);
+        res.status(201).json({message:"Commented"});
+    } catch (error) {
+        res.status(400).json({message:"Error adding cmnt"});
+    }
+
+}
+
+
+async function handleIsLiked(req,res)
+{
+
+}
+
+
+
 module.exports = {
     handleCreatePost,
     handleGetPosts,
+    handleGetComments,
+    handleAddNewComment,
 }
