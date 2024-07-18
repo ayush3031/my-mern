@@ -8,6 +8,7 @@ import { CiBookmark } from "react-icons/ci";
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 
+
 const Post = (props) => {
 
     //req prop
@@ -31,19 +32,70 @@ const Post = (props) => {
 
     //likes
 
-    const [isLiked, toggleLiked] = useState(false);
+    //const [isLiked, toggleLiked] = useState(false);
+    
+
     const myRef = useRef(null);
-    useEffect(() => {
-        if (myRef.current) {
-            myRef.current.addEventListener('click', handleLiked);
+    const [numberOfLikes, setNumberOfLikes] = useState(props.likes.length);
+    const [isPostLiked, setIsPostLiked] = useState(false);
+
+    const fetchLikeStatus = async () => {
+        try {
+            const response = await axios.get(`http://localhost:5000/home/posts/likes/${postId}`, { withCredentials: true });
+            setIsPostLiked(response.data.hasLiked);
+        } catch (error) {
+            console.error('Error fetching like status:', error);
         }
-    }, [myRef, handleLiked]);
-    function handleLiked() {
-        toggleLiked(!isLiked);
+        //toggleLiked(isPostLiked);
+    };
+
+    // Effect to fetch initial like status on component mount
+    useEffect(() => {
+        fetchLikeStatus();
+    }, []);
+
+    useEffect(() => {
+        const button = myRef.current;
+        if (button) {
+            button.addEventListener('click', handleAddRemoveLike);
+            return () => {
+                button.removeEventListener('click', handleAddRemoveLike);
+            };
+        }
+    }, [ handleAddRemoveLike]);
+
+    async function handleAddRemoveLike() {
+        
+        if(!isPostLiked)
+        {
+            try {
+                const response = await axios.get(`http://localhost:5000/home/posts/addlikes/${postId}`,{withCredentials:true});
+                setNumberOfLikes(numberOfLikes + 1);
+                console.log('liked');
+
+            } catch (error) {
+                console.error('Error Liking post:Server');
+            }
+        }
+        else 
+        {
+            console.log('yes');
+            try {
+                const response = await axios.get(`http://localhost:5000/home/posts/removelikes/${postId}`,{withCredentials:true});
+                setNumberOfLikes(numberOfLikes - 1);
+                console.log('unliked');
+
+            } catch (error) {
+                console.error('Error UnLiking post:Server');
+            }
+        }
+        //toggleLiked(!isLiked);
+        setIsPostLiked(!isPostLiked);
     }
 
-    //comments 
 
+    //comments 
+    const [numberofComments, setNumberOfComments] = useState(props.comments.length);
     const [newComment, setNewComment] = useState('');
 
     const [showComments, setShowComments] = useState(false);
@@ -83,6 +135,7 @@ const Post = (props) => {
             const response = await axios.post(`http://localhost:5000/home/posts/${postId}`, { content: newComment }, { withCredentials: true });
             setShowComments(!showComments);
             setNewComment('');
+            setNumberOfComments(numberofComments+1);
         }
         catch (err) {
             console.error('Error adding comments:', err);
@@ -129,14 +182,14 @@ const Post = (props) => {
                 <button ref={myRef}
                     className="flex items-center space-x-1 hover:text-blue-500 transition duration-200 "
                 >
-                    {!isLiked ? <BiUpvote className="text-xl" /> : <BiSolidUpvote className="text-xl" />}
-                    <span className='text-zinc-200 text-[17px]'>{props.likes.length}</span>
+                    {!isPostLiked ? <BiUpvote className="text-xl" /> : <BiSolidUpvote className="text-xl" />}
+                    <span className='text-zinc-200 text-[17px]'>{numberOfLikes}</span>
                 </button>
                 <button onClick={handleCommentClick}
                     className="flex items-center space-x-1 hover:text-blue-500 transition duration-200"
                 >
                     <FaCommentAlt className="text-l" />
-                    <span className='text-zinc-200 text-[17px]'> {props.comments.length}</span>
+                    <span className='text-zinc-200 text-[17px]'> {numberofComments}</span>
                 </button>
                 <button
                     ref={myRef2}

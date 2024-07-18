@@ -1,5 +1,5 @@
 const express = require('express');
-const { handleCreatePost, handleGetPosts, handleGetComments, handleAddNewComment } = require('../controllers/post');
+const { handleCreatePost, handleGetPosts, handleGetComments, handleAddNewComment, handleIsLiked, handleAddNewLike, handleRemoveLike } = require('../controllers/post');
 const multer = require('multer');
 
 
@@ -19,6 +19,8 @@ router.post('/posts',upload.single('image'),handleCreatePost);
 router.get('/posts',handleGetPosts);
 router.get('/posts/:id',handleGetComments);
 router.post('/posts/:id',handleAddNewComment);
-router.get('/posts/likes/:id',);
+router.get('/posts/likes/:id',handleIsLiked);
+router.get('/posts/addlikes/:id',handleAddNewLike);
+router.get('/posts/removelikes/:id',handleRemoveLike);
 
 module.exports = router;

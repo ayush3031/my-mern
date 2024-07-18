@@ -2,9 +2,9 @@ const { getUser } = require("../service/auth");
 
 async function restrictToLoggedinUserOnly(req,res,next)
 {
-    console.log(req.cookies);
+    //console.log(req.cookies);
     const userUid = req.cookies.uid;
-    console.log(userUid);
+    //console.log(userUid);
 
     if(!userUid) return res.status(404).json({message:"User not found"});
     const user = getUser(userUid);
@@ -12,7 +12,7 @@ async function restrictToLoggedinUserOnly(req,res,next)
     if(!user) return res.status(404).json({message:"User not found"});
    
     req.user = user;
-    console.log(user);
+    //console.log(user);
     next();
 }
 
