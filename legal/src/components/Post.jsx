@@ -14,6 +14,21 @@ const Post = (props) => {
     //req prop
     const postId = props.id;
 
+    //user
+    const [user,setuser] = useState(null);
+    useEffect(()=>{
+        const getuser = async()=>{
+            try {
+                const response = await axios.get(`http://localhost:5000/home/posts/getuser/${postId}`,{withCredentials:true});
+                setuser(response.data);
+                console.log(response.data);
+            } catch (error) {
+                console.error('Unable to get user');
+            }
+            console.log(user);
+        } 
+        getuser();
+    },[]);
     //saved
     
     const myRef2 = useRef(null);
@@ -159,8 +174,7 @@ const Post = (props) => {
                 <div className="flex-shrink-0">
                     <img
                         className="h-10 w-10 rounded-full"
-                        src={`https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg`}
-
+                        src={user?.profilePicture || 'https://www.pngarts.com/files/10/Default-Profile-Picture-Download-PNG-Image.png'}
                     />
                 </div>
                 <div className="ml-3">

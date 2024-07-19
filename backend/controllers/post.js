@@ -120,7 +120,7 @@ async function handleAddNewLike(req,res)
 {
     const postId = req.params;
     const userUid = req.cookies.uid;
-    //console.log(userUid);
+    console.log(userUid);
     if(!userUid) return res.status(404).json({message:"User not found"});
     const user = getUser(userUid);
 
@@ -170,6 +170,21 @@ async function handleRemoveLike(req,res)
     }
 }
 
+async function handleGetUser(req,res)
+{
+    const postId = req.params;
+
+    const post = await Post.findById(postId.id);
+    if(!post)
+    {
+        return res.status(404).json({message:"Not Found"});
+    }
+    //console.log(post);
+    const username = post.username;
+    const user = await User.findOne({username});
+    return res.status(201).json(user);
+}
+
 
 module.exports = {
     handleCreatePost,
@@ -179,4 +194,5 @@ module.exports = {
     handleAddNewLike,
     handleIsLiked,
     handleRemoveLike,
+    handleGetUser,
 }

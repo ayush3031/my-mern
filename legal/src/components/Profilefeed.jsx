@@ -89,15 +89,15 @@ const ProfilePage = (props) => {
                         className="rounded-full w-32 h-32"
                     />
                     <div className=" p-2 bg-gray-800 rounded-full cursor-pointer">
-                                <label htmlFor="fileUpload">
-                                    <FaPencilAlt className="text-gray-300" />
-                                </label>
-                                <input
-                                    id="fileUpload"
-                                    type="file"
-                                    className="hidden"
-                                    onChange={handleFileUpload}
-                                />
+                            <label htmlFor="fileUpload">
+                                <FaPencilAlt className="text-gray-300" />
+                            </label>
+                            <input
+                                id="fileUpload"
+                                type="file"
+                                className="hidden"
+                                onChange={handleFileUpload}
+                            />
                     </div>
 
                 </div>
