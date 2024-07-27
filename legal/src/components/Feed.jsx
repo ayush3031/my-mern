@@ -29,7 +29,7 @@ export default function Feed() {
   
 
   return (
-    <div className='w-full h-[500vh] bg-zinc-300 '>
+    <div className='w-full h-full bg-zinc-300 '>
         <Navbar/>
         <CreatePost/>
         {

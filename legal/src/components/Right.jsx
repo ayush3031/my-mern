@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react';
-
+import axios from 'axios';
 
 export default function Right() {
-
+    //user
+    const [user,setuser] = useState(null);
+    useEffect(()=>{
+        const getuser = async()=>{
+            try {
+                const response = await axios.get(`http://localhost:5000/home/getuser`,{withCredentials:true});
+                setuser(response.data);
+                console.log(response.data);
+            } catch (error) {
+                console.error('Unable to get user');
+            }
+            console.log(user);
+        } 
+        getuser();
+    },[]);
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -27,11 +41,12 @@ export default function Right() {
                     } transition-transform lg:translate-x-0 lg:static lg:w-64 w-64 sm:w-[30vh] lg:fixed flex flex-col items-center gap-[2vh] border-l-[1px] border-zinc-500`}
             >
                 <a href="/profile" className="block py-2  flex flex-col gap-[10px] items-center">
-                    <img className='rounded-[70px] h-[20vh] w-[20vh] ' src='https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg'></img>
-                    <h1 className='text-[3vh] font-light'>John Jame</h1>
+                    <img className='rounded-[70px] h-[20vh] w-[20vh] ' src={user?user.profilePicture:'https://www.pngarts.com/files/10/Default-Profile-Picture-Download-PNG-Image.png'}></img>
+                    <h1 className='text-[3vh] font-light'>You</h1>
+                    <h1 className='text-[2.5vh] font-light'>@{user?user.username:''}</h1>
                 </a>
                 <div>
-                    <button className='bg-[#1A8CD8] py-[2vh] px-[5vh] rounded-full'>Ask Question</button>
+                    <a href='/home' className='bg-[#1A8CD8] py-[2vh] px-[5vh] rounded-full'>Ask Question</a>
                 </div>
                 
             </div>

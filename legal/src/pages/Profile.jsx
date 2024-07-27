@@ -26,10 +26,11 @@ export default function Profile() {
             <div className='lg:fixed '>
                 <Leftside />
             </div>
-            <div className="flex-1 p-4 overflow-auto lg:ml-[15vw] flex flex-col">
+            <div className="flex-1 p-4 overflow-auto lg:ml-[15vw] flex flex-col ">
                 <div>
                     <Profilefeed noOfPosts={posts.length} />
                 </div>
+                <div className='text-[28px] relative left-1/4 mb-[2vh] font-["Bahnschrift_Condensed"]'>Your Posts:</div>
                 {posts.map((post, index) => (
                     <div key={post._id}>
                         <Post
