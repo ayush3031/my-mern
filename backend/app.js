@@ -24,7 +24,7 @@ if (!fs.existsSync(dpUploadPath)) {
 
 //cors
 const corsOptions = {
-    origin: 'https://resonant-torte-ea508d.netlify.app/',
+    origin: 'https://harmonious-elf-5901dd.netlify.app/',
     credentials: true, // This is important.
   };
 app.use(cors(corsOptions));
