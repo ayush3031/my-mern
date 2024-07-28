@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const { connectToDb } = require('./connection');
+const { connectToDb } = require('./connection.js');
 const userRouter = require('./routes/user.js');
 const postRouter = require('./routes/posts.js');
 const profileRouter = require('./routes/profile.js');
@@ -9,7 +9,7 @@ const app = express();
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const path = require('path');
-
+require('dotenv').config()
 
 
 const fs = require('fs');
@@ -28,11 +28,11 @@ const corsOptions = {
     credentials: true, // This is important.
   };
 app.use(cors(corsOptions));
-const PORT = 5000;
+const PORT = process.env.PORT||5000;
 
 //connecting to db
-
-connectToDb('mongodb://127.0.0.1:27017/legally-right').then(()=> console.log("MongoDb Set"));
+//'mongodb://127.0.0.1:27017/legally-right'
+connectToDb(process.env.MONGO_URL).then(()=> console.log("MongoDb Set"));
 
 //middlewares
 
