@@ -23,11 +23,7 @@ if (!fs.existsSync(dpUploadPath)) {
 }
 
 //cors
-const corsOptions = {
-    origin: 'http://localhost:5173',
-    credentials: true, // This is important.
-  };
-app.use(cors(corsOptions));
+app.use(cors());
 const PORT = process.env.PORT||5000;
 
 //connecting to db
