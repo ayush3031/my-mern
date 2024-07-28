@@ -11,7 +11,7 @@ export default function Profile() {
         const fetchPosts = async () => {
             try {
 
-                const response = await axios.get(`http://localhost:5000/users/profile/posts`, { withCredentials: true });
+                const response = await axios.get(`https://my-mern-qn9y.onrender.com/users/profile/posts`, { withCredentials: true });
                 setPosts(response.data);
                 console.log('fetched posts');
             } catch (error) {

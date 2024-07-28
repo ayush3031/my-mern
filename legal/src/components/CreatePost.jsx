@@ -39,7 +39,7 @@ export default function CreatePost() {
         
         console.log(formData);
         try {
-            const response = await axios.post('http://localhost:5000/home/posts', formData, {
+            const response = await axios.post('https://my-mern-qn9y.onrender.com/home/posts', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

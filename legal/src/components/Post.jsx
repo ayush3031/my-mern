@@ -19,7 +19,7 @@ const Post = (props) => {
     useEffect(()=>{
         const getuser = async()=>{
             try {
-                const response = await axios.get(`http://localhost:5000/home/posts/getuser/${postId}`,{withCredentials:true});
+                const response = await axios.get(`https://my-mern-qn9y.onrender.com/home/posts/getuser/${postId}`,{withCredentials:true});
                 setuser(response.data);
                 console.log(response.data);
             } catch (error) {
@@ -56,7 +56,7 @@ const Post = (props) => {
 
     const fetchLikeStatus = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/home/posts/likes/${postId}`, { withCredentials: true });
+            const response = await axios.get(`https://my-mern-qn9y.onrender.com/home/posts/likes/${postId}`, { withCredentials: true });
             setIsPostLiked(response.data.hasLiked);
         } catch (error) {
             console.error('Error fetching like status:', error);
@@ -84,7 +84,7 @@ const Post = (props) => {
         if(!isPostLiked)
         {
             try {
-                const response = await axios.get(`http://localhost:5000/home/posts/addlikes/${postId}`,{withCredentials:true});
+                const response = await axios.get(`https://my-mern-qn9y.onrender.com/home/posts/addlikes/${postId}`,{withCredentials:true});
                 setNumberOfLikes(numberOfLikes + 1);
                 console.log('liked');
 
@@ -96,7 +96,7 @@ const Post = (props) => {
         {
             console.log('yes');
             try {
-                const response = await axios.get(`http://localhost:5000/home/posts/removelikes/${postId}`,{withCredentials:true});
+                const response = await axios.get(`https://my-mern-qn9y.onrender.com/home/posts/removelikes/${postId}`,{withCredentials:true});
                 setNumberOfLikes(numberOfLikes - 1);
                 console.log('unliked');
 
@@ -135,7 +135,7 @@ const Post = (props) => {
     const fetchComments = async () => {
         try {
             setLoading(true);
-            const response = await axios.get(`http://localhost:5000/home/posts/${postId}`, { withCredentials: true });
+            const response = await axios.get(`https://my-mern-qn9y.onrender.com/home/posts/${postId}`, { withCredentials: true });
             setAllComments(response.data);
             setLoading(false);
             console.log(response.data);
@@ -147,7 +147,7 @@ const Post = (props) => {
 
     const handleAddComment = async () => {
         try {
-            const response = await axios.post(`http://localhost:5000/home/posts/${postId}`, { content: newComment }, { withCredentials: true });
+            const response = await axios.post(`https://my-mern-qn9y.onrender.com/home/posts/${postId}`, { content: newComment }, { withCredentials: true });
             setShowComments(!showComments);
             setNewComment('');
             setNumberOfComments(numberofComments+1);

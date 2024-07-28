@@ -14,7 +14,7 @@ const ProfilePage = (props) => {
         const fetchUserData = async () => {
             try {
                 
-                const response = await axios.get(`http://localhost:5000/users/profile`,{withCredentials:true});
+                const response = await axios.get(`https://my-mern-qn9y.onrender.com/users/profile`,{withCredentials:true});
                 
                 setUserData(response.data);
                 setLoading(false);
@@ -40,7 +40,7 @@ const ProfilePage = (props) => {
     const saveBio = async () => {
         try {
             const response = await axios.patch(
-                'http://localhost:5000/users/profile/bio',
+                'https://my-mern-qn9y.onrender.com/users/profile/bio',
                 { bio },
                 { withCredentials: true }
             );
@@ -60,7 +60,7 @@ const ProfilePage = (props) => {
         console.log(image);
         try {
             const response = await axios.patch(
-                'http://localhost:5000/users/profile/changeDp',
+                'https://my-mern-qn9y.onrender.com/users/profile/changeDp',
                 formData,
                 { 
                 headers: {

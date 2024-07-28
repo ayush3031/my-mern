@@ -8,7 +8,7 @@ export default function Right() {
     useEffect(()=>{
         const getuser = async()=>{
             try {
-                const response = await axios.get(`http://localhost:5000/home/getuser`,{withCredentials:true});
+                const response = await axios.get(`https://my-mern-qn9y.onrender.com/home/getuser`,{withCredentials:true});
                 setuser(response.data);
                 console.log(response.data);
             } catch (error) {
