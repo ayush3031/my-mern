@@ -36,7 +36,7 @@ export default function Signup() {
             };
             try {
                 //console.log(formData);
-                const response = await axios.post('https://my-mern-qn9y.onrender.com/signup', formData, {
+                const response = await axios.post('https://my-mern-1.onrender.com/signup', formData, {
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -61,7 +61,7 @@ export default function Signup() {
             //console.log(formData);
             try {
                 console.log(formData);
-                const response = await axios.post('https://my-mern-qn9y.onrender.com/login', formData, {
+                const response = await axios.post('https://my-mern-1.onrender.com/login', formData, {
                     headers: {
                         'Content-Type': 'application/json'},
                     withCredentials: true

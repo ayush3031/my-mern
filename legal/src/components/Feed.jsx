@@ -13,7 +13,7 @@ export default function Feed() {
     const getposts = async ()=> {
       try {
         //const config = { 'content-type': 'application/json' };
-        const response = await axios.get('https://my-mern-qn9y.onrender.com/home/posts',{
+        const response = await axios.get('https://my-mern-1.onrender.com/home/posts',{
           withCredentials:true,
           credentials: "include",
         });
