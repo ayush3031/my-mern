@@ -23,7 +23,11 @@ if (!fs.existsSync(dpUploadPath)) {
 }
 
 //cors
-app.use(cors());
+const corsOptions = {
+    origin: 'https://resonant-torte-ea508d.netlify.app/',
+    credentials: true, // This is important.
+  };
+app.use(cors(corsOptions));
 const PORT = process.env.PORT||5000;
 
 //connecting to db

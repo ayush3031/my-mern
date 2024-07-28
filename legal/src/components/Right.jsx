@@ -8,7 +8,7 @@ export default function Right() {
     useEffect(()=>{
         const getuser = async()=>{
             try {
-                const response = await axios.get(`https://my-mern-1.onrender.com/home/getuser`,{withCredentials:true});
+                const response = await axios.get(`http://localhost:5000/home/getuser`,{withCredentials:true});
                 setuser(response.data);
                 console.log(response.data);
             } catch (error) {
@@ -46,7 +46,7 @@ export default function Right() {
                     <h1 className='text-[2.5vh] font-light'>@{user?user.username:''}</h1>
                 </a>
                 <div>
-                    <a href='/home' className='bg-[#1A8CD8] py-[2vh] px-[5vh] rounded-full'>Ask Question</a>
+                    <a href='/' className='bg-[#1A8CD8] py-[2vh] px-[5vh] rounded-full'>Ask Question</a>
                 </div>
                 
             </div>

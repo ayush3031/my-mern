@@ -11,7 +11,7 @@ export default function Profile() {
         const fetchPosts = async () => {
             try {
 
-                const response = await axios.get(`https://my-mern-1.onrender.com/users/profile/posts`, { withCredentials: true });
+                const response = await axios.get(`http://localhost:5000/users/profile/posts`, { withCredentials: true });
                 setPosts(response.data);
                 console.log('fetched posts');
             } catch (error) {
@@ -30,7 +30,7 @@ export default function Profile() {
                 <div>
                     <Profilefeed noOfPosts={posts.length} />
                 </div>
-                <div className='text-[28px] relative left-1/4 mb-[2vh] font-["Bahnschrift_Condensed"]'>Your Posts:</div>
+                <div className='text-[2px] relative left-1/4 mb-[2vh] font-["Bahnschrift_Condensed"]'>Your Posts:</div>
                 {posts.map((post, index) => (
                     <div key={post._id}>
                         <Post

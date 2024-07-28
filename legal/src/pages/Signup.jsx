@@ -36,12 +36,12 @@ export default function Signup() {
             };
             try {
                 //console.log(formData);
-                const response = await axios.post('https://my-mern-1.onrender.com/signup', formData, {
+                const response = await axios.post('http://localhost:5000/', formData, {
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     withCredentials: true
-                });
+            });
                 alert('Signup successful');
                 console.log('Signup successful:', response.data);
                 navigate('/home');
@@ -61,11 +61,11 @@ export default function Signup() {
             //console.log(formData);
             try {
                 console.log(formData);
-                const response = await axios.post('https://my-mern-1.onrender.com/login', formData, {
+                const response = await axios.post('http://localhost:5000/login', formData, {
                     headers: {
                         'Content-Type': 'application/json'},
                     withCredentials: true
-                });
+            });
                 alert('Login successful');
                 //console.log(response.config.headers.Cookie);
                 console.log('Login successful:', response.data);
