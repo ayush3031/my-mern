@@ -9,7 +9,8 @@ const app = express();
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const path = require('path');
-require('dotenv').config()
+const dotenv = require('dotenv');
+dotenv.config();
 
 
 const fs = require('fs');
@@ -24,7 +25,7 @@ if (!fs.existsSync(dpUploadPath)) {
 
 //cors
 const corsOptions = {
-    origin: 'https://resonant-torte-ea508d.netlify.app/',
+    origin: 'http://localhost:5173',
     credentials: true, // This is important.
   };
 app.use(cors(corsOptions));

@@ -36,7 +36,7 @@ export default function Signup() {
             };
             try {
                 //console.log(formData);
-                const response = await axios.post('http://localhost:5000/', formData, {
+                const response = await axios.post('http://localhost:5000/signup', formData, {
                     headers: {
                         'Content-Type': 'application/json',
                     },
