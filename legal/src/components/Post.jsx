@@ -5,21 +5,36 @@ import { FaCommentAlt } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
 import { BiSolidUpvote } from "react-icons/bi";
 import { CiBookmark } from "react-icons/ci";
+import { MdDelete } from "react-icons/md";
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import { InfoPosts } from './InfoPosts';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { fetchUser } from '../redux/features/Userslice';
+import { Store } from '../redux/store';
 
 
 const Post = (props) => {
 
+
     //req prop
     const postId = props.id;
 
+    const dispatch = useDispatch();
+    const {user}=useSelector((state)=>state.user);
+
+    useEffect(()=>{
+        Store.dispatch(fetchUser(postId));
+        console.log(user);
+    },[dispatch]);
+
     //user
-    const [user,setuser] = useState(null);
+    /*const [user,setuser] = useState(null);
     useEffect(()=>{
         const getuser = async()=>{
             try {
-                const response = await axios.get(`https://my-mern-qn9y.onrender.com/home/posts/getuser/${postId}`,{withCredentials:true});
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/home/posts/getuser/${postId}`,{withCredentials:true});
                 setuser(response.data);
                 console.log(response.data);
             } catch (error) {
@@ -28,7 +43,7 @@ const Post = (props) => {
             console.log(user);
         } 
         getuser();
-    },[]);
+    },[]);*/
     //saved
     
     const myRef2 = useRef(null);
@@ -56,7 +71,7 @@ const Post = (props) => {
 
     const fetchLikeStatus = async () => {
         try {
-            const response = await axios.get(`https://my-mern-qn9y.onrender.com/home/posts/likes/${postId}`, { withCredentials: true });
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/home/posts/likes/${postId}`, { withCredentials: true });
             setIsPostLiked(response.data.hasLiked);
         } catch (error) {
             console.error('Error fetching like status:', error);
@@ -84,7 +99,7 @@ const Post = (props) => {
         if(!isPostLiked)
         {
             try {
-                const response = await axios.get(`http://localhost:5000/home/posts/addlikes/${postId}`,{withCredentials:true});
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/home/posts/addlikes/${postId}`,{withCredentials:true});
                 setNumberOfLikes(numberOfLikes + 1);
                 console.log('liked');
 
@@ -96,7 +111,7 @@ const Post = (props) => {
         {
             console.log('yes');
             try {
-                const response = await axios.get(`http://localhost:5000/home/posts/removelikes/${postId}`,{withCredentials:true});
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/home/posts/removelikes/${postId}`,{withCredentials:true});
                 setNumberOfLikes(numberOfLikes - 1);
                 console.log('unliked');
 
@@ -135,9 +150,10 @@ const Post = (props) => {
     const fetchComments = async () => {
         try {
             setLoading(true);
-            const response = await axios.get(`http://localhost:5000/home/posts/${postId}`, { withCredentials: true });
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/home/posts/${postId}`, { withCredentials: true });
             setAllComments(response.data);
             setLoading(false);
+            console.log(allComments);
             console.log(response.data);
         } catch (error) {
             console.error('Error fetching comments:', error);
@@ -147,7 +163,7 @@ const Post = (props) => {
 
     const handleAddComment = async () => {
         try {
-            const response = await axios.post(`http://localhost:5000/home/posts/${postId}`, { content: newComment }, { withCredentials: true });
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/home/posts/${postId}`, { content: newComment }, { withCredentials: true });
             setShowComments(!showComments);
             setNewComment('');
             setNumberOfComments(numberofComments+1);
@@ -181,6 +197,9 @@ const Post = (props) => {
                     <div className="text-sm font-medium text-zinc-100">{props.name}</div>
                     <div className="text-sm text-gray-300">@{props.username} | {formatDate(props.date)} </div>
                 </div>
+                {props.username==user?<div className='ml-auto'>
+                    <MdDelete className='text-[25px]' />
+                </div>:<></>}
             </div>
             {props.image && (
                 <div className="mb-4">
@@ -220,7 +239,7 @@ const Post = (props) => {
                         <div className='my-[24px]'>
                             <h1 className='font-bold'>Replies</h1>
                             <ul >
-                            {allComments.map((comment) => (
+                            {allComments.forEach((comment) => (
                                 <li key={comment._id} className="bg-zinc-800 my-4 p-4 rounded-[20px] shadow-md
                                 border-l-[0.05rem] border-b-[1px] 
                                 border-zinc-200'">

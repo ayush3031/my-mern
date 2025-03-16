@@ -47,6 +47,7 @@ export default function CreatePost() {
             });
             console.log('hey');
             console.log('Post created:', response.data);
+            window.location.reload();
         } catch (error) {
             console.error('Error creating post:', error);
         }

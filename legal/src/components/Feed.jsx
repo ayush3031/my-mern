@@ -4,11 +4,22 @@ import Post from './Post'
 import CreatePost from './CreatePost'
 import axios from 'axios'
 import { useNavigate } from 'react-router'
-
+import { useDispatch , useSelector } from 'react-redux'
+import { fetchPosts } from '../redux/features/Postslice'
+import { Store } from '../redux/store'
 
 export default function Feed() {
+  const dispatch = useDispatch();
+  const { posts, loading ,error } = useSelector((state)=>state.posts);
+
+  useEffect(()=>{
+    Store.dispatch(fetchPosts());
+    console.log(posts.length);
+  },[dispatch]);
+
   const navigate = useNavigate();
-  const [posts, setPosts] = useState([]);
+
+  /*const [posts, setPosts] = useState([]);
   useEffect(()=>{
     const getposts = async ()=> {
       try {
@@ -25,7 +36,7 @@ export default function Feed() {
       }
     }
     getposts();
-  },[navigate]);
+  },[navigate]);*/
   
 
   return (

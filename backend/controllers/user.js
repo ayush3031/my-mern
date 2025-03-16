@@ -32,13 +32,14 @@ async function handleUserSignUp(req, res) {
 async function handleUserLogin(req, res) {
     const { email, password } = req.body;
     try {
-        console.log(req.body);
+        //console.log(req.body);
         const user = await User.findOne({ email, password });
         if (!user) {
             console.log('hi');
             return res.status(400).json({ message: 'Invalid email id' });
         }
         const token = setUser(user);
+        //console.log(token);
         /*return res
             .writeHead(200, {
                 "Set-Cookie": `${token}`,
@@ -46,9 +47,10 @@ async function handleUserLogin(req, res) {
                 "message":"Login Successfull"
             })
             .send();*/
-        res.cookie("__Secure-uid",token,{
-            "Set-Cookie":"Path=/" 
-        });
+            res.cookie("uid", token, {
+                "Access-Control-Allow-Credentials": "true"
+            });
+            
         //console.log(token);
         return res.json({ message: "Login Succesfull" });
     }

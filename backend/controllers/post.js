@@ -20,21 +20,23 @@ async function handleCreatePost(req, res) {
             name:name,
             username:username,
             content:content,
-            image:image,
+            image:image, 
         });
-        console.log(name);
+        console.log("kk");
         res.status(201).json({ message: "New Post Created", post: newPost });
     }
     catch (err) {
+        console.log(err);
         res.status(500).json({ message: "Server error" });
     }
 }
 
 async function handleGetPosts(req, res) {
-    
+    //console.log(req);
+    console.log("redux");
     try {
         const posts = await Post.find().sort({ createdAt: -1 });
-        
+        console.log(posts);
         res.json(posts);
     }
     catch (err) {
