@@ -69,18 +69,19 @@ const Post = (props) => {
     const [numberOfLikes, setNumberOfLikes] = useState(props.likes.length);
     const [isPostLiked, setIsPostLiked] = useState(false);
 
-    const fetchLikeStatus = async () => {
-        try {
-            const response = await axios.get(`${import.meta.env.VITE_API_URL}/home/posts/likes/${postId}`, { withCredentials: true });
-            setIsPostLiked(response.data.hasLiked);
-        } catch (error) {
-            console.error('Error fetching like status:', error);
-        }
-        //toggleLiked(isPostLiked);
-    };
+    
 
     // Effect to fetch initial like status on component mount
     useEffect(() => {
+        const fetchLikeStatus = async () => {
+            try {
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/home/posts/likes/${postId}`, { withCredentials: true });
+                //console.log(response.data.likestatus);
+                setIsPostLiked(response.data.likestatus);
+            } catch (error) {
+                console.error('Error fetching like status:', error);
+            }
+        };
         fetchLikeStatus();
     }, []);
 
@@ -95,31 +96,15 @@ const Post = (props) => {
     }, [ handleAddRemoveLike]);
 
     async function handleAddRemoveLike() {
-        
-        if(!isPostLiked)
-        {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_API_URL}/home/posts/addlikes/${postId}`,{withCredentials:true});
-                setNumberOfLikes(numberOfLikes + 1);
+                setNumberOfLikes(response.data.likes);
+                console.log(response.data.likes)
                 console.log('liked');
 
             } catch (error) {
                 console.error('Error Liking post:Server');
             }
-        }
-        else 
-        {
-            console.log('yes');
-            try {
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/home/posts/removelikes/${postId}`,{withCredentials:true});
-                setNumberOfLikes(numberOfLikes - 1);
-                console.log('unliked');
-
-            } catch (error) {
-                console.error('Error UnLiking post:Server');
-            }
-        }
-        //toggleLiked(!isLiked);
         setIsPostLiked(!isPostLiked);
     }
 

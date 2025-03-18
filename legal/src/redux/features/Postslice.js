@@ -1,5 +1,4 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
-import { useNavigate } from 'react-router';
 import axios from 'axios';
 
 
@@ -11,8 +10,7 @@ const initialState = {
 
 export const fetchPosts = createAsyncThunk('fetchposts',async(_,{ rejectWithValue })=>{
     try {
-        console.log('p');
-        const response = await axios.get('http://localhost:5000/home/posts',{
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/home/posts`,{
             withCredentials:true,
             credentials: "include",
         });
@@ -21,7 +19,6 @@ export const fetchPosts = createAsyncThunk('fetchposts',async(_,{ rejectWithValu
     }
     catch (error)
     {
-        console.log('error in fetching');
         return rejectWithValue(error.response?.data||"Error fetching posts");
     }
 })

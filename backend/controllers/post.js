@@ -32,8 +32,6 @@ async function handleCreatePost(req, res) {
 }
 
 async function handleGetPosts(req, res) {
-    //console.log(req);
-    console.log("redux");
     try {
         const posts = await Post.find().sort({ createdAt: -1 });
         console.log(posts);
@@ -90,39 +88,8 @@ async function handleAddNewComment(req,res)
 
 async function handleIsLiked(req,res)
 {
-    const postId = req.params;
+    const postId = req.params.id;
     const userUid = req.cookies.uid;
-    if(!userUid) return res.status(404).json({message:"User not found"});
-    const user = getUser(userUid);
-
-    if(!user) return res.status(404).json({message:"User not found"});
-    
-    try {
-        const email = user.email;
-        const userWithComment = await User.findOne({email});
-        
-        const userId = userWithComment._id;
-        const id = postId.id;
-
-        const post = await Post.findById(id).select('likes');
-        if (!post) {
-            return res.status(404).send('Post not found');
-        }
-        
-        const hasLiked = post.likes.includes(userId);
-        
-        res.status(201).send({ hasLiked });
-    } catch (error) {
-        res.status(400).json({message:"Error finding post"});
-    }
-}
-
-
-async function handleAddNewLike(req,res)
-{
-    const postId = req.params;
-    const userUid = req.cookies.uid;
-    console.log(userUid);
     if(!userUid) return res.status(404).json({message:"User not found"});
     const user = getUser(userUid);
 
@@ -131,46 +98,80 @@ async function handleAddNewLike(req,res)
     try {
         const email = user.email;
         const userWithLike = await User.findOne({email});
-        
-        const userId = userWithLike._id;
-        const id = postId.id;
-        
-        const post = await Post.updateOne(
-            { _id:id },
-            {$push : {likes: userId }}
-        );
-        res.status(201).json({message:"You Liked"});
-    } catch (error) {
+        const userName = userWithLike.username;
+        const id = postId;
+        const post = await Post.findOne({ _id:id });
+        if(!post)
+        {
+            res.status(400).json({message:"Post not found"});
+        }
+        else
+        {
+            const hasliked = post.likes.includes(userName);
+            res.status(201).json({message:"like status",
+                likestatus: hasliked}, 
+            );
+        }
+    } 
+    catch (error) {
+        res.status(400).json({message:"Error fetching like status"});
+    }
+}
+
+
+async function handleAddRemoveLike(req,res)
+{
+    const postId = req.params.id;
+    const userUid = req.cookies.uid;
+    if(!userUid) return res.status(404).json({message:"User not found"});
+    const user = getUser(userUid);
+
+    if(!user) return res.status(404).json({message:"User not found"});
+    
+    try {
+        const email = user.email;
+        const userWithLike = await User.findOne({email});
+        const userName = userWithLike.username;
+        const id = postId;
+        const post = await Post.findOne({ _id:id });
+        if(!post)
+        {
+            res.status(400).json({message:"Post not found"});
+        }
+        else
+        {
+            const hasliked = post.likes.includes(userName);
+            if(!hasliked)
+            {
+                const updatedPost = await Post.findByIdAndUpdate(
+                    id,
+                    {$push:{likes:userName}},
+                    { new: true });
+                res.status(201).json({message:"like status",
+                    likes : updatedPost.likes.length,
+                    likedBy : userName,
+                    status: hasliked}, 
+                );
+            }
+            else 
+            {
+                const updatedPost = await Post.findByIdAndUpdate(
+                    id,
+                    {$pull:{likes:userName}},
+                    { new: true });
+                
+                res.status(201).json({message:"like status",
+                    likes : updatedPost.likes.length,
+                    status : hasliked},
+                );
+            }
+        }
+    } 
+    catch (error) {
         res.status(400).json({message:"Error liking post"});
     }
 }
 
-
-async function handleRemoveLike(req,res)
-{
-    const postId = req.params;
-    const userUid = req.cookies.uid;
-    if(!userUid) return res.status(404).json({message:"User not found"});
-    const user = getUser(userUid);
-
-    if(!user) return res.status(404).json({message:"User not found"});
-    
-    try {
-        const email = user.email;
-        const userWithLike = await User.findOne({email});
-        
-        const userId = userWithLike._id;
-        const id = postId.id;
-        
-        await Post.updateOne(
-            {_id:id},
-            {$pull:{likes:`${userId}`}},
-        );
-        res.status(201).json({message:"You UnLiked"});
-    } catch (error) {
-        res.status(400).json({message:"Error Unliking post"});
-    }
-}
 
 async function handleGetUser(req,res)
 {
@@ -194,8 +195,7 @@ module.exports = {
     handleGetPosts,
     handleGetComments,
     handleAddNewComment,
-    handleAddNewLike,
+    handleAddRemoveLike,
     handleIsLiked,
-    handleRemoveLike,
     handleGetUser,
 }
