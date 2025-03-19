@@ -3,23 +3,23 @@ import Leftside from '../components/Leftside'
 import Profilefeed from '../components/Profilefeed'
 import Post from '../components/Post'
 import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchUser } from '../redux/features/Userslice'
+import { fetchPosts } from '../redux/features/Postslice'
 
 export default function Profile() {
 
-    const [posts, setPosts] = useState([]);
-    useEffect(() => {
-        const fetchPosts = async () => {
-            try {
+    const dispatch = useDispatch();
+    const {user} = useSelector((state)=>state.user);
+    const {posts} = useSelector((state)=>state.posts);
+    useEffect(()=>{
+        dispatch(fetchUser());
+        dispatch(fetchPosts());
 
-                const response = await axios.get(`http://localhost:5000/users/profile/posts`, { withCredentials: true });
-                setPosts(response.data);
-                console.log('fetched posts');
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-            }
-        };
-        fetchPosts();
-    },[]);
+        console.log(user);
+    },[])
+    const userPosts = posts.filter((post) => post.username === user?.username);
+
 
     return (
         <div className="App flex lg:flex-row">
@@ -31,7 +31,7 @@ export default function Profile() {
                     <Profilefeed noOfPosts={posts.length} />
                 </div>
                 <div className='text-[2px] relative left-1/4 mb-[2vh] font-["Bahnschrift_Condensed"]'>Your Posts:</div>
-                {posts.map((post, index) => (
+                {userPosts.map((post, index) => (
                     <div key={post._id}>
                         <Post
                         key={index}

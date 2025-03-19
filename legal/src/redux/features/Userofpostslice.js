@@ -3,17 +3,16 @@ import axios from 'axios';
 
 
 const initialState = {
-    user : '',
+    postuser : [],
     loading: false,
     error: null,
 }
 
-export const fetchUser = createAsyncThunk('fetchuser',async(_,{ rejectWithValue })=>{
+export const fetchPostUser = createAsyncThunk('fetchuserofpost',async(postId,{ rejectWithValue })=>{
     try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/home/getuser`,{
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/home/posts/getuser/${postId}`,{
             withCredentials:true,
         });
-        console.log(response.data);
         return response.data;
     }
     catch(err)
@@ -24,21 +23,21 @@ export const fetchUser = createAsyncThunk('fetchuser',async(_,{ rejectWithValue 
 })
 
 
-const UserSlice = createSlice({
+const UserOfPostSlice = createSlice({
     initialState:initialState,
-    name:'user',
+    name:'postuser',
     reducers:{ },
     extraReducers:(builder)=>{
         builder
             //fetch user
-            .addCase(fetchUser.pending,(state)=>{
+            .addCase(fetchPostUser.pending,(state)=>{
                 state.loading=true;
             })
-            .addCase(fetchUser.fulfilled,(state,action)=>{
+            .addCase(fetchPostUser.fulfilled,(state,action)=>{
                 state.loading=false;
-                state.user=action.payload;
+                state.postuser=action.payload;
             })
-            .addCase(fetchUser.rejected,(state,action)=>{
+            .addCase(fetchPostUser.rejected,(state,action)=>{
                 state.loading=false;
                 state.error=action.payload;
             })
@@ -46,4 +45,4 @@ const UserSlice = createSlice({
 })
 
 
-export default UserSlice.reducer;
+export default UserOfPostSlice.reducer;
