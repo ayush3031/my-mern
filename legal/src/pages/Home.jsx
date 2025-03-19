@@ -9,12 +9,19 @@ import { Store } from '../redux/store';
 
 export default function Home() {
   
+  const [focusInput, setFocusInput] = useState(false);
+
+  const handleAskQuestionClick = () => {
+    setFocusInput(true);
+  };
+
+
 
   return (
     <div className='flex'>
       <Leftside />
-      <Feed />
-      <Right />
+      <Feed focusInput={focusInput} setFocusInput={setFocusInput}/>
+      <Right onAskQuestionClick = {handleAskQuestionClick} />
     </div>
 
   )

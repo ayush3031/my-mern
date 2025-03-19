@@ -1,9 +1,19 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useRef, useState,useEffect } from 'react'
 
 
 
-export default function CreatePost() {
+export default function CreatePost({focusInput , setFocusInput}){
+
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+        if (focusInput && inputRef.current) {
+            inputRef.current.focus();
+            setFocusInput(false);
+        }
+    }, [focusInput,setFocusInput]);  
+
 
     const [postContent, setPostContent] = useState('');
     const [image, setImage] = useState(null);
@@ -57,6 +67,7 @@ export default function CreatePost() {
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                     <input
+                        ref={inputRef}
                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="What's on your mind?"
                         name='content'
@@ -88,6 +99,8 @@ export default function CreatePost() {
             </form>
         </div>
     );
-};
+}
+
+    
 
 

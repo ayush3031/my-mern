@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import axios from 'axios';
+import { TbSquareArrowLeft } from "react-icons/tb";
+import { FaArrowRight } from "react-icons/fa";
 
-export default function Right() {
+export default function Right({onAskQuestionClick}) {
     //user
     const [user,setuser] = useState(null);
     useEffect(()=>{
@@ -19,6 +21,10 @@ export default function Right() {
         getuser();
     },[]);
 
+
+    const handleRightArrow = ()=>{
+        toggleSidebar();
+    }
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleSidebar = () => {
@@ -46,7 +52,16 @@ export default function Right() {
                     <h1 className='text-[2.5vh] font-light'>@{user?user.username:''}</h1>
                 </a>
                 <div>
-                    <a href='/' className='bg-[#1A8CD8] py-[2vh] px-[5vh] rounded-full'>Ask Question</a>
+                    <button 
+                        onClick={()=>onAskQuestionClick()}
+                        className='bg-[#1A8CD8] py-[2vh] px-[5vh] rounded-full'>
+                            Ask Question
+                    </button>
+                </div>
+                <div className='m-[10px] border-[1px] rounded-[4vw]'>
+                    <button onClick={handleRightArrow} className='py-[2vh] px-[5vh] rounded-full'>
+                        <FaArrowRight className='text-[4vh] ' />
+                    </button>
                 </div>
                 
             </div>

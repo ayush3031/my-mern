@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Navbar from './Navbar'
 import Post from './Post'
 import CreatePost from './CreatePost'
@@ -8,9 +8,10 @@ import { useDispatch , useSelector } from 'react-redux'
 import { fetchPosts } from '../redux/features/Postslice'
 import { Store } from '../redux/store'
 
-export default function Feed() {
+export default function Feed({focusInput , setFocusInput}) {
   const dispatch = useDispatch();
   const { posts, loading ,error } = useSelector((state)=>state.posts);
+
 
   useEffect(()=>{
     Store.dispatch(fetchPosts());
@@ -42,7 +43,7 @@ export default function Feed() {
   return (
     <div className='w-full h-full bg-zinc-300 '>
         <Navbar/>
-        <CreatePost/>
+        <CreatePost focusInput={focusInput} setFocusInput = {setFocusInput}/>
         {
         posts.map((post,index)=>(
           <Post 

@@ -8,7 +8,6 @@ import { CiBookmark } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
 import axios from 'axios';
 import { useNavigate } from 'react-router';
-import { InfoPosts } from './InfoPosts';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { fetchUser } from '../redux/features/Userslice';
@@ -114,7 +113,7 @@ const Post = (props) => {
     const [newComment, setNewComment] = useState('');
 
     const [showComments, setShowComments] = useState(false);
-    const [allComments, setAllComments] = useState([]);
+    const [allComments, setAllComments] = useState([{}]);
 
     const [loading, setLoading] = useState(false);
     
@@ -149,7 +148,8 @@ const Post = (props) => {
     const handleAddComment = async () => {
         try {
             const response = await axios.post(`${import.meta.env.VITE_API_URL}/home/posts/${postId}`, { content: newComment }, { withCredentials: true });
-            setShowComments(!showComments);
+            //setShowComments(!showComments);
+            fetchComments();
             setNewComment('');
             setNumberOfComments(numberofComments+1);
         }
@@ -224,8 +224,9 @@ const Post = (props) => {
                         <div className='my-[24px]'>
                             <h1 className='font-bold'>Replies</h1>
                             <ul >
-                            {allComments.forEach((comment) => (
-                                <li key={comment._id} className="bg-zinc-800 my-4 p-4 rounded-[20px] shadow-md
+                            {allComments.map((comment,index) => (
+                                console.log(comment._id),
+                                <li key={comment._id||index} className="bg-zinc-800 my-4 p-4 rounded-[20px] shadow-md
                                 border-l-[0.05rem] border-b-[1px] 
                                 border-zinc-200'">
                                     <p className="font-light">@{comment.user}</p>

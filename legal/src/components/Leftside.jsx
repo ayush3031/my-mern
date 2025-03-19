@@ -15,6 +15,9 @@ export default function Leftside() {
         setIsOpen(!isOpen);
         setIsOpen(!isOpen);
     };
+    const handleIconClick =() =>{
+        toggleSidebar();
+    }
 
         const currentPath = window.location.pathname;
 
@@ -27,8 +30,9 @@ export default function Leftside() {
                 {/*sidebar*/}
                 <div className={` fixed top-0 left-0 bg-zinc-900 text-white h-full  transform ${isOpen ? 'translate-x-0' : '-translate-x-full'
                     } transition-transform lg:translate-x-0 lg:static lg:w-[30vh] w-[20vh] sm:w-[30vh] lg:h-full lg:fixed flex flex-col items-center gap-[2vh] border-r-[1px] border-zinc-500 z-40`}>
-
+                    <button onClick={handleIconClick}>
                     <img className='rounded-full h-[20vh] w-[20vh] mt-[4vh]'  src='https://cdn.dribbble.com/users/3912043/screenshots/15415864/media/26940ea0b1b406d3ce27f7455f474262.jpg?resize=1000x750&vertical=center'></img>
+                    </button>
 
 
                     <a href='/home' 
