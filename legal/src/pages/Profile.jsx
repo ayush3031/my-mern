@@ -28,7 +28,7 @@ export default function Profile() {
             </div>
             <div className="flex-1 p-4 overflow-auto lg:ml-[15vw] flex flex-col ">
                 <div>
-                    <Profilefeed noOfPosts={posts.length} />
+                    <Profilefeed noOfPosts={userPosts.length} />
                 </div>
                 <div className='text-[2px] relative left-1/4 mb-[2vh] font-["Bahnschrift_Condensed"]'>Your Posts:</div>
                 {userPosts.map((post, index) => (

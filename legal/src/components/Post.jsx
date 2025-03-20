@@ -7,26 +7,32 @@ import { BiSolidUpvote } from "react-icons/bi";
 import { CiBookmark } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
 import axios from 'axios';
-import { useNavigate } from 'react-router';
+import { Navigate, useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { fetchPostUser } from '../redux/features/Userofpostslice';
 import { Store } from '../redux/store';
+import { fetchUser } from '../redux/features/Userslice';
 
 
 const Post = (props) => {
 
-
+    const navigate = useNavigate();
     //req prop
     const postId = props.id;
 
     const dispatch = useDispatch();
-    const {postuser}=useSelector((state)=>state.postuser);
+    const {user} = useSelector((state)=>state.user);
+    useEffect(()=>{
+        dispatch(fetchUser());
+        console.log(user);
+    },[dispatch])
+    /*const {postuser}=useSelector((state)=>state.postuser);
 
     useEffect(()=>{
         Store.dispatch(fetchPostUser(postId));
         console.log(postuser);
-    },[dispatch]);
+    },[dispatch]);*/
 
     //user
     /*const [user,setuser] = useState(null);
@@ -34,8 +40,8 @@ const Post = (props) => {
         const getuser = async()=>{
             try {
                 const response = await axios.get(`${import.meta.env.VITE_API_URL}/home/posts/getuser/${postId}`,{withCredentials:true});
-                setuser(response.data);
-                console.log(response.data);
+                setuser(response.data.username);
+                console.log(response.data.username);
             } catch (error) {
                 console.error('Unable to get user');
             }
@@ -158,6 +164,20 @@ const Post = (props) => {
         }
     }
 
+    //delete post 
+
+    const handleDeletePost = async()=>{
+        try{
+            const response = await axios.delete(`${import.meta.env.VITE_API_URL}/home/posts/delete/${postId}`,{withCredentials:true});
+            console.log(response.data.message);
+            alert(response.data.message);
+            window.location.reload();
+        }
+        catch(err){
+            console.log("Error in deleting process",err);
+        }
+    }
+
     //date-->
 
     const formatDate = (dateString) => {
@@ -175,16 +195,16 @@ const Post = (props) => {
                 <div className="flex-shrink-0">
                     <img
                         className="h-10 w-10 rounded-full"
-                        src={postuser?.profilePicture || 'https://www.pngarts.com/files/10/Default-Profile-Picture-Download-PNG-Image.png'}
+                        src={user?.profilePicture || 'https://www.pngarts.com/files/10/Default-Profile-Picture-Download-PNG-Image.png'}
                     />
                 </div>
                 <div className="ml-3">
                     <div className="text-sm font-medium text-zinc-100">{props.name}</div>
                     <div className="text-sm text-gray-300">@{props.username} | {formatDate(props.date)} </div>
                 </div>
-                {props.username==postuser?<div className='ml-auto'>
+                {props.username==user.username?<button onClick={handleDeletePost} className='ml-auto'>
                     <MdDelete className='text-[25px]' />
-                </div>:<></>}
+                </button>:<></>}
             </div>
             {props.image && (
                 <div className="mb-4">

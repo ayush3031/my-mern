@@ -188,6 +188,26 @@ async function handleGetUser(req,res)
     return res.status(201).json(user);
 }
 
+async function handleDeletePost(req,res)
+{
+    const postId = req.params.id;
+    console.log('hello');
+    console.log(postId);
+    if(postId)
+    {
+        const querry = {_id:postId};
+        try {
+            await Post.deleteOne(querry);
+            return res.status(201).json({message:"Post deleted successfully"});
+        }
+        catch(err)
+        {
+            return res.status(404).json({message:"error deleting post"});
+        }
+
+    }
+}
+
 
 
 module.exports = {
@@ -198,4 +218,5 @@ module.exports = {
     handleAddRemoveLike,
     handleIsLiked,
     handleGetUser,
+    handleDeletePost,
 }

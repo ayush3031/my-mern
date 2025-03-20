@@ -22,6 +22,11 @@ export default function Right({onAskQuestionClick}) {
     },[]);
 
 
+    const handleAskButton = () =>{
+        toggleSidebar();
+        onAskQuestionClick();
+    }
+
     const handleRightArrow = ()=>{
         toggleSidebar();
     }
@@ -53,7 +58,7 @@ export default function Right({onAskQuestionClick}) {
                 </a>
                 <div>
                     <button 
-                        onClick={()=>onAskQuestionClick()}
+                        onClick={handleAskButton}
                         className='bg-[#1A8CD8] py-[2vh] px-[5vh] rounded-full'>
                             Ask Question
                     </button>
